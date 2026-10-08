@@ -6,16 +6,17 @@
     <title>DOJ Grande City - Department of Justice</title>
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-card: #131c2e;
-            --bg-input: #1a2640;
-            --accent-gold: #c5a059;
-            --accent-gold-hover: #d4af37;
+            --bg-main: #070a12;
+            --bg-card: #0f172a;
+            --bg-input: #151e36;
+            --accent-gold: #d4af37;
+            --accent-gold-hover: #f3c653;
             --text-light: #f3f4f6;
             --text-muted: #9ca3af;
             --success: #059669;
             --danger: #dc2626;
-            --border: #2a3b5c;
+            --border: #1e293b;
+            --border-glow: rgba(212, 175, 55, 0.4);
         }
 
         body {
@@ -24,68 +25,183 @@
             color: var(--text-light);
             margin: 0;
             padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .container {
             max-width: 950px;
+            width: 100%;
             margin: 0 auto;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.7);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.05);
             overflow: hidden;
+            position: relative;
         }
 
         header {
-            background: linear-gradient(135deg, #111827, #1f2937);
-            padding: 25px 30px;
+            background: linear-gradient(135deg, #090d16, #131c2e);
+            padding: 25px 35px;
             border-bottom: 2px solid var(--accent-gold);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 26px;
             color: var(--accent-gold);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Analoge Uhr & Datum Widget */
+        .header-clock-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(11, 15, 25, 0.6);
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .analog-clock {
+            width: 46px;
+            height: 46px;
+            border: 2px solid var(--accent-gold);
+            border-radius: 50%;
+            position: relative;
+            background: #0b0f19;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        .clock-center {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            border-radius: 4px;
+            z-index: 3;
+        }
+
+        .hour-hand {
+            width: 3px;
+            height: 12px;
+            background: var(--text-light);
+            transform: translate(-50%, 0);
+        }
+
+        .minute-hand {
+            width: 2px;
+            height: 17px;
+            background: var(--accent-gold);
+            transform: translate(-50%, 0);
+        }
+
+        .second-hand {
+            width: 1px;
+            height: 19px;
+            background: var(--danger);
+            transform: translate(-50%, 0);
+            z-index: 5;
+        }
+
+        .date-display {
+            text-align: left;
+        }
+
+        .date-display .date-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .date-display .time-text {
+            font-size: 11px;
+            color: var(--accent-gold);
+            font-family: monospace;
         }
 
         .content {
-            padding: 30px;
+            padding: 35px;
         }
 
         .btn {
-            background-color: var(--accent-gold);
+            background: linear-gradient(135deg, var(--accent-gold), #b89230);
             color: #000;
             font-weight: bold;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
         }
 
         .btn:hover {
-            background-color: var(--accent-gold-hover);
+            background: linear-gradient(135deg, var(--accent-gold-hover), var(--accent-gold));
+            box-shadow: 0 6px 18px var(--border-glow);
+            transform: translateY(-1px);
         }
 
         .btn-danger {
-            background-color: var(--danger);
+            background: linear-gradient(135deg, var(--danger), #b91c1c);
             color: #fff;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ef4444, var(--danger));
+            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.5);
         }
 
         input, select {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--text-light);
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+        }
+
+        input::placeholder {
+            color: #64748b;
+            opacity: 1;
         }
 
         .hidden {
@@ -95,50 +211,101 @@
         .admin-badge {
             background: var(--danger);
             color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
         }
 
         .card {
-            background: rgba(26, 38, 64, 0.5);
+            background: rgba(21, 30, 54, 0.4);
             border: 1px solid var(--border);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .question-box {
             margin-bottom: 25px;
-            padding-bottom: 15px;
+            padding-bottom: 20px;
             border-bottom: 1px solid var(--border);
         }
 
-        .modal {
-            max-width: 400px;
-            margin: 30px auto;
+        /* Ultra-geiles Modal-Overlay für den Admin-Login */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
             background: var(--bg-card);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        table {
+            border: 1px solid var(--accent-gold);
+            padding: 35px;
+            border-radius: 16px;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+            max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.9), 0 0 30px rgba(212, 175, 55, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        th, td {
-            border: 1px solid var(--border);
-            padding: 10px;
-            text-align: left;
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
         }
 
-        th {
-            background: var(--bg-input);
+        .modal-box h3 {
+            margin-top: 0;
             color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            border-color: var(--text-muted);
+            box-shadow: none;
         }
     </style>
 </head>
@@ -148,10 +315,27 @@
         <header>
             <div>
                 <h1>DOJ Grande City</h1>
-                <p style="margin: 5px 0 0 0; color: var(--text-muted); font-size: 14px;">Department of Justice – Prüfungssystem</p>
+                <p style="margin: 5px 0 0 0; color: var(--text-muted); font-size: 14px;">Department of Justice – Prüfungsportal</p>
             </div>
-            <div id="header-status">
-                <button class="btn" onclick="openLoginModal()">Admin Portal</button>
+            
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <!-- Live Analoge Uhr & Datum -->
+                <div class="header-clock-container">
+                    <div class="analog-clock">
+                        <div class="clock-center"></div>
+                        <div class="hand hour-hand" id="hour-hand"></div>
+                        <div class="hand minute-hand" id="minute-hand"></div>
+                        <div class="hand second-hand" id="second-hand"></div>
+                    </div>
+                    <div class="date-display">
+                        <div class="date-text" id="header-date">--. --. ----</div>
+                        <div class="time-text" id="header-time">00:00:00</div>
+                    </div>
+                </div>
+
+                <div id="header-status">
+                    <button class="btn" onclick="openLoginModal()">Admin Portal</button>
+                </div>
             </div>
         </header>
 
@@ -160,22 +344,23 @@
             <div id="user-view">
                 <div class="card" id="start-screen">
                     <h2>Offizielle DOJ Einstellungsprüfung</h2>
-                    <p>Willkommen beim Prüfungsportal von Grande City. Dir werden zufällig 15 Fragen aus unserem Fragenkatalog gestellt. Zum Bestehen sind mindestens 80% (12 von 15 Punkten) erforderlich.</p>
-                    <input type="text" id="applicant-name" placeholder="Dein vollständiger Name / Ingame-Name" style="max-width: 400px;">
+                    <p>Willkommen beim Prüfungsportal von Grande City. Dir werden per Zufallsgenerator 15 Fragen aus unserem über 60 Fragen starken Katalog zugewiesen. Zum Bestehen sind mindestens 80% (12 von 15 Punkten) erforderlich.</p>
+                    <br>
+                    <input type="text" id="applicant-name" placeholder="Vollständiger Name / Ingame-Name eingeben..." style="max-width: 450px;">
                     <br>
                     <button class="btn" onclick="startExam()">Prüfung starten</button>
                 </div>
 
                 <div id="exam-screen" class="hidden">
-                    <h3 id="exam-title">Prüfung läuft...</h3>
+                    <h3 id="exam-title" style="color: var(--accent-gold); margin-bottom: 25px;">Prüfung läuft...</h3>
                     <div id="questions-container"></div>
                     <button class="btn" onclick="submitExam()">Prüfung abgeben & auswerten</button>
                 </div>
 
                 <div id="result-screen" class="hidden">
-                    <div class="card" id="result-card">
+                    <div class="card" id="result-card" style="text-align: center; padding: 40px;">
                         <h2>Prüfungsergebnis</h2>
-                        <p id="result-text" style="font-size: 18px; font-weight: bold;"></p>
+                        <p id="result-text" style="font-size: 20px; font-weight: bold; margin: 25px 0;"></p>
                         <button class="btn" onclick="location.reload()">Zurück zur Startseite</button>
                     </div>
                 </div>
@@ -183,30 +368,32 @@
 
             <!-- Admin-Dashboard -->
             <div id="admin-view" class="hidden">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                     <h2>Admin-Dashboard</h2>
-                    <span class="admin-badge">ADMIN AKTIV</span>
+                    <span class="admin-badge">ADMIN MODUS AKTIV</span>
                 </div>
                 <div class="card">
-                    <h3>Fragenkatalog verwalten (Gesamt: <span id="question-count">0</span>)</h3>
-                    <p>Hier kannst du Fragen hinzufügen oder löschen. Die Änderungen werden direkt im Browser gespeichert.</p>
+                    <h3>Fragenkatalog verwalten (Gesamt im System: <span id="question-count" style="color: var(--accent-gold);">0</span>)</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 25px;">Füge neue Fragen hinzu oder entferne bestehende. Änderungen werden sofort dauerhaft im Browser gesichert.</p>
                     
-                    <div style="background: var(--bg-input); padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-                        <h4>Neue Frage hinzufügen</h4>
+                    <div style="background: rgba(11, 15, 25, 0.6); padding: 20px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 30px;">
+                        <h4 style="margin-top: 0; color: var(--accent-gold);">Neue Frage hinzufügen</h4>
                         <input type="text" id="new-q-text" placeholder="Fragetext eingeben...">
-                        <input type="text" id="new-q-opt1" placeholder="Antwortmöglichkeit A">
-                        <input type="text" id="new-q-opt2" placeholder="Antwortmöglichkeit B">
-                        <input type="text" id="new-q-opt3" placeholder="Antwortmöglichkeit C">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                            <input type="text" id="new-q-opt1" placeholder="Antwort A" style="margin-bottom: 10px;">
+                            <input type="text" id="new-q-opt2" placeholder="Antwort B" style="margin-bottom: 10px;">
+                            <input type="text" id="new-q-opt3" placeholder="Antwort C" style="margin-bottom: 10px;">
+                        </div>
                         <select id="new-q-correct">
                             <option value="0">Richtige Antwort: A</option>
                             <option value="1">Richtige Antwort: B</option>
                             <option value="2">Richtige Antwort: C</option>
                         </select>
-                        <button class="btn" onclick="addNewQuestion()">Frage hinzufügen</button>
+                        <button class="btn" onclick="addNewQuestion()">Frage speichern</button>
                     </div>
 
-                    <h4>Vorhandene Fragen</h4>
-                    <div id="admin-question-list" style="max-height: 400px; overflow-y: auto;"></div>
+                    <h4 style="margin-bottom: 15px;">Vorhandene Fragen</h4>
+                    <div id="admin-question-list" style="max-height: 450px; overflow-y: auto; padding-right: 5px;"></div>
 
                     <br>
                     <button class="btn btn-danger" onclick="adminLogout()">Admin abmelden</button>
@@ -215,17 +402,47 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
-    <div id="login-section" class="modal hidden" style="margin-top: 20px;">
-        <h3>Admin Login</h3>
-        <input type="text" id="username" placeholder="Benutzername (Doj1)">
-        <input type="password" id="password" placeholder="Passwort (starko)">
-        <button class="btn" onclick="performLogin()">Einloggen</button>
-        <button class="btn" style="background: transparent; color: var(--text-muted); margin-top: 10px;" onclick="closeLoginModal()">Abbrechen</button>
+    <!-- Ultra-geiles Admin Login Modal (zentriert, kein Footer-Müll mehr) -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Admin Portal Login</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Bitte gib deine Administrator-Zugangsdaten ein, um den Fragenkatalog zu verwalten.</p>
+            <input type="text" id="username" placeholder="Benutzername">
+            <input type="password" id="password" placeholder="Passwort">
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeLoginModal()">Abbrechen</button>
+                <button class="btn" onclick="performLogin()">Einloggen</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Standard-Fragenkatalog (über 60 Fragen als Basis)
+        // Live Uhr & Datum Steuerung
+        function updateClock() {
+            const now = new Date();
+            
+            // Analoge Zeiger berechnen
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours();
+
+            const secondDegrees = (seconds / 60) * 360;
+            const minuteDegrees = ((minutes + seconds / 60) / 60) * 360;
+            const hourDegrees = ((hours % 12 + minutes / 60) / 12) * 360;
+
+            document.getElementById('second-hand').style.transform = `translate(-50%, 0) rotate(${secondDegrees}deg)`;
+            document.getElementById('minute-hand').style.transform = `translate(-50%, 0) rotate(${minuteDegrees}deg)`;
+            document.getElementById('hour-hand').style.transform = `translate(-50%, 0) rotate(${hourDegrees}deg)`;
+
+            // Digitales Datum & Uhrzeit daneben
+            const optionsDate = { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' };
+            document.getElementById('header-date').innerText = now.toLocaleDateString('de-DE', optionsDate);
+            document.getElementById('header-time').innerText = now.toLocaleTimeString('de-DE');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Standard-Fragenkatalog (über 60 Fragen)
         const defaultQuestions = [
             { q: "Was ist die Hauptaufgabe des Department of Justice?", options: ["Polizeistreifen fahren", "Die Einhaltung von Gesetzen und Vertretung der Justiz", "Fahrzeugtuning verkaufen"], correct: 1 },
             { q: "Wann darf von der Schusswaffe gebrauch gemacht werden?", options: ["Immer bei Flucht", "Nur bei unmittelbarer Eigen- oder Fremdgefährdung", "Gar nicht"], correct: 1 },
@@ -243,7 +460,7 @@
             { q: "Wie lange darf eine Person maximal vorläufig festgehalten werden ohne Anhörung (Standard)?", options: ["1 Woche", "Bis zu einem gesetzlich festgelegten Zeitraum laut Serverregeln", "Einen Monat"], correct: 1 },
             { q: "Was ist Bestechlichkeit im Amt?", options: ["Geld oder Vorteile für Amtshandlungen anzunehmen", "Trinkgeld im Restaurant", "Gute Arbeit leisten"], correct: 0 },
             { q: "Darf ein Zeuge zur Aussage gezwungen werden?", options: ["Ja, rechtlich vorgeschrieben", "Nein, niemals", "Nur wenn er Lust hat"], correct: 0 },
-            { q: "Was versteht man unter Notwehr?",options: ["Angriff auf andere", "Abwehr eines gegenwärtigen, rechtswidrigen Angriffs", "Streit auf der Straße"], correct: 1 },
+            { q: "Was versteht man unter Notwehr?", options: ["Angriff auf andere", "Abwehr eines gegenwärtigen, rechtswidrigen Angriffs", "Streit auf der Straße"], correct: 1 },
             { q: "Welche Sprache wird im Gerichtssaal primär gesprochen?", options: ["Fiktive Zeichensprache", "Deutsch / Amtssprache", "Englisch ausschließlich"], correct: 1 },
             { q: "Was ist ein Präzedenzfall?", options: ["Ein Unfall", "Ein früheres Gerichtsurteil als Richtlinie", "Ein Autotyp"], correct: 1 },
             { q: "Wer vertritt den Staat bei Straftaten?", options: ["Der Angeklagte", "Die Staatsanwaltschaft (Prosecution)", "Der Abschleppdienst"], correct: 1 },
@@ -278,7 +495,7 @@
             { q: "Was ist das Strafregister?", options: ["Sammlung von Vorstrafen", "Ein Kochbuch", "Telefonliste"], correct: 0 },
             { q: "Was bedeutet Akteneinsicht?", options: ["Das Recht, Falldokumente einzusehen", "Akte verbrennen", "Akte verstecken"], correct: 0 },
             { q: "Wer überwacht die Einhaltung der Menschenrechte?", options: ["Das DOJ und internationale Standards", "Niemand", "Autohändler"], correct: 0 },
-            { q: "Was ist eine Vernehmung?",options: ["Befragung durch Behörden", "Ein Verhör mit Gewalt", "Ein Kaffeekränzchen"], correct: 0 },
+            { q: "Was ist eine Vernehmung?", options: ["Befragung durch Behörden", "Ein Verhör mit Gewalt", "Ein Kaffeekränzchen"], correct: 0 },
             { q: "Darf ein Beschuldigter schweigen?", options: ["Nein, er muss reden", "Ja, das Recht auf Schweigen (Right to remain silent)", "Nur wenn er müde ist"], correct: 1 },
             { q: "Was ist Justizvollzug?", options: ["Der Vollzug von Freiheitsstrafen", "Freizeitpark", "Polizeiarbeit"], correct: 0 },
             { q: "Was ist ein Durchsuchungsbefehl?", options: ["Richterliche Erlaubnis zur Durchsuchung", "Einkaufszettel", "Führerschein"], correct: 0 },
@@ -293,7 +510,6 @@
         let questions = JSON.parse(localStorage.getItem('doj_questions')) || defaultQuestions;
         let activeExamQuestions = [];
 
-        // Admin Session beim Laden prüfen
         window.addEventListener('DOMContentLoaded', () => {
             const isAdmin = sessionStorage.getItem('doj_admin_logged_in');
             if (isAdmin === 'true') {
@@ -302,31 +518,33 @@
         });
 
         function openLoginModal() {
-            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('active');
+            document.getElementById('username').focus();
         }
 
         function closeLoginModal() {
-            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('login-modal').classList.remove('active');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         }
 
         function performLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
 
             if (user === 'Doj1' && pass === 'starko') {
                 sessionStorage.setItem('doj_admin_logged_in', 'true');
                 closeLoginModal();
                 showAdminView();
             } else {
-                alert('Falsche Anmeldedaten!');
+                alert('Falscher Benutzername oder falsches Passwort!');
             }
         }
 
         function showAdminView() {
             document.getElementById('user-view').classList.add('hidden');
             document.getElementById('admin-view').classList.remove('hidden');
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('header-status').innerHTML = '<span class="admin-badge">Admin Modus</span>';
+            document.getElementById('header-status').innerHTML = '<span class="admin-badge">ADMIN AKTIV</span>';
             renderAdminQuestions();
         }
 
@@ -344,7 +562,6 @@
                 return;
             }
 
-            // 15 zufällige Fragen auswählen
             let shuffled = [...questions].sort(() => 0.5 - Math.random());
             activeExamQuestions = shuffled.slice(0, 15);
 
@@ -355,9 +572,9 @@
                 let box = document.createElement('div');
                 box.className = 'question-box';
                 box.innerHTML = `
-                    <label><strong>${index + 1}. ${item.q}</strong></label><br>
+                    <label style="font-size: 16px; display: block; margin-bottom: 12px;"><strong>${index + 1}. ${item.q}</strong></label>
                     <select id="question-${index}">
-                        <option value="">Bitte wählen...</option>
+                        <option value="">Bitte Antwort auswählen...</option>
                         <option value="0">${item.options[0]}</option>
                         <option value="1">${item.options[1]}</option>
                         <option value="2">${item.options[2]}</option>
@@ -368,7 +585,8 @@
 
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('exam-screen').classList.remove('hidden');
-            document.getElementById('exam-title').innerText = `Prüfung für: ${name}`;
+            document.getElementById('exam-title').innerText = `Prüfung für Anwärter: ${name}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function submitExam() {
@@ -398,12 +616,13 @@
             if (passed) {
                 resCard.style.borderColor = 'var(--success)';
                 resText.style.color = 'var(--success)';
-                resText.innerHTML = `Bestanden! Du hast ${score} von ${total} Punkten erreicht (${percentage.toFixed(1)}%). Glückwunsch!`;
+                resText.innerHTML = `🎉 BESTANDEN!<br><span style="font-size: 16px; color: var(--text-light);">Du hast ${score} von ${total} Punkten erreicht (${percentage.format ? percentage.format(1) : percentage.toFixed(1)}%). Glückwunsch zur bestandenen Prüfung!</span>`;
             } else {
                 resCard.style.borderColor = 'var(--danger)';
                 resText.style.color = 'var(--danger)';
-                resText.innerHTML = `Nicht bestanden. Du hast ${score} von ${total} Punkten erreicht (${percentage.toFixed(1)}%). Benötigt werden mindestens 80%.`;
+                resText.innerHTML = `❌ LEIDER NICHT BESTANDEN<br><span style="font-size: 16px; color: var(--text-light);">Du hast ${score} von ${total} Punkten erreicht (${percentage.toFixed(1)}%). Benötigt werden mindestens 80% (12 Punkte).</span>`;
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderAdminQuestions() {
@@ -413,10 +632,10 @@
 
             questions.forEach((item, index) => {
                 let div = document.createElement('div');
-                div.style.cssText = "background: var(--bg-main); padding: 10px; margin-bottom: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;";
+                div.style.cssText = "background: rgba(7, 10, 18, 0.6); padding: 12px 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 15px;";
                 div.innerHTML = `
-                    <div><strong>#${index + 1}</strong> ${item.q}</div>
-                    <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteQuestion(${index})">Löschen</button>
+                    <div style="font-size: 14px;"><strong style="color: var(--accent-gold);">#${index + 1}</strong> ${item.q}</div>
+                    <button class="btn btn-danger" style="padding: 6px 14px; font-size: 11px; white-space: nowrap;" onclick="deleteQuestion(${index})">Löschen</button>
                 `;
                 list.appendChild(div);
             });
@@ -430,7 +649,7 @@
             let correct = parseInt(document.getElementById('new-q-correct').value);
 
             if (!qText || !opt1 || !opt2 || !opt3) {
-                alert('Bitte alle Felder für die Frage ausfüllen!');
+                alert('Bitte den Fragetext und alle drei Antwortmöglichkeiten ausfüllen!');
                 return;
             }
 
@@ -447,16 +666,20 @@
             document.getElementById('new-q-opt1').value = '';
             document.getElementById('new-q-opt2').value = '';
             document.getElementById('new-q-opt3').value = '';
-            alert('Frage erfolgreich hinzugefügt!');
+            document.getElementById('new-q-correct').value = '0';
+            alert('Frage wurde erfolgreich dem Katalog hinzugefügt!');
         }
 
         function deleteQuestion(index) {
-            if (confirm('Mist du sicher, dass du diese Frage löschen möchtest?')) {
+            if (confirm('Bist du sicher, dass du diese Frage unwiderruflich löschen möchtest?')) {
                 questions.splice(index, 1);
                 localStorage.setItem('doj_questions', JSON.stringify(questions));
                 renderAdminQuestions();
             }
         }
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
