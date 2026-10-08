@@ -16,7 +16,7 @@
             --success: #059669;
             --danger: #dc2626;
             --border: #1e293b;
-            --border-glow: rgba(212, 175, 55, 0.4);
+            --border-glow: rgba(212, 175, 55, 0.4)
         }
 
         body {
