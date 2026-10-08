@@ -63,7 +63,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Analoge Uhr & Datum Widget */
         .header-clock-container {
             display: flex;
             align-items: center;
@@ -234,7 +233,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* Ultra-geiles Modal-Overlay für den Admin-Login */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -308,7 +306,6 @@
             box-shadow: none;
         }
 
-        /* Druck-Optimierung für PDF Export */
         @media print {
             body {
                 background: #ffffff !important;
@@ -347,7 +344,6 @@
             </div>
             
             <div style="display: flex; align-items: center; gap: 20px;">
-                <!-- Live Analoge Uhr & Datum -->
                 <div class="header-clock-container">
                     <div class="analog-clock">
                         <div class="clock-center"></div>
@@ -368,7 +364,6 @@
         </header>
 
         <div class="content">
-            <!-- Öffentlicher Bereich / Prüfung -->
             <div id="user-view">
                 <div class="card" id="start-screen">
                     <h2>Offizielle DOJ Einstellungsprüfung</h2>
@@ -399,7 +394,6 @@
                 </div>
             </div>
 
-            <!-- Admin-Dashboard -->
             <div id="admin-view" class="hidden">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                     <h2>Admin-Dashboard</h2>
@@ -435,7 +429,6 @@
         </div>
     </div>
 
-    <!-- Admin Login Modal -->
     <div id="login-modal" class="modal-overlay">
         <div class="modal-box">
             <h3>Admin Portal Login</h3>
@@ -450,10 +443,8 @@
     </div>
 
     <script>
-        // Live Uhr & Datum Steuerung
         function updateClock() {
             const now = new Date();
-            
             const seconds = now.getSeconds();
             const minutes = now.getMinutes();
             const hours = now.getHours();
@@ -721,5 +712,7 @@
             }
         }
     </script>
+</body>
+</html>
 </body>
 </html>
