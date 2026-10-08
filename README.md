@@ -679,7 +679,7 @@
             let qText = document.getElementById('new-q-text').value.trim();
             let opt1 = document.getElementById('new-q-opt1').value.trim();
             let opt2 = document.getElementById('new-q-opt2').value.trim();
-            let opt3 = document.getElementById('new-q-opt3').value.trim();
+            let opt3 = document.getElementById('new-q-opt3'].value.trim();
             let correct = parseInt(document.getElementById('new-q-correct').value);
 
             if (!qText || !opt1 || !opt2 || !opt3) {
@@ -712,7 +712,5 @@
             }
         }
     </script>
-</body>
-</html>
 </body>
 </html>
