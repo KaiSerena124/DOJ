@@ -307,6 +307,34 @@
             border-color: var(--text-muted);
             box-shadow: none;
         }
+
+        /* Druck-Optimierung für PDF Export */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0;
+            }
+            header, .modal-overlay, button, .admin-badge {
+                display: none !important;
+            }
+            .container {
+                border: none !important;
+                box-shadow: none !important;
+                background: #ffffff !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            .card {
+                background: #ffffff !important;
+                border: 2px solid #000000 !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+            }
+            #result-text {
+                color: #000000 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -359,9 +387,14 @@
 
                 <div id="result-screen" class="hidden">
                     <div class="card" id="result-card" style="text-align: center; padding: 40px;">
-                        <h2>Prüfungsergebnis</h2>
+                        <h2>Offizielles Prüfungsergebnis</h2>
+                        <p id="applicant-display-name" style="color: var(--accent-gold); font-size: 16px; font-weight: bold; margin-top: 5px;"></p>
                         <p id="result-text" style="font-size: 20px; font-weight: bold; margin: 25px 0;"></p>
-                        <button class="btn" onclick="location.reload()">Zurück zur Startseite</button>
+                        
+                        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 30px;">
+                            <button class="btn" onclick="printResultPDF()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff;">🖨️ Als PDF speichern / Drucken</button>
+                            <button class="btn btn-secondary" onclick="location.reload()">Zurück zur Startseite</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -402,7 +435,7 @@
         </div>
     </div>
 
-    <!-- Ultra-geiles Admin Login Modal (zentriert, kein Footer-Müll mehr) -->
+    <!-- Admin Login Modal -->
     <div id="login-modal" class="modal-overlay">
         <div class="modal-box">
             <h3>Admin Portal Login</h3>
@@ -421,7 +454,6 @@
         function updateClock() {
             const now = new Date();
             
-            // Analoge Zeiger berechnen
             const seconds = now.getSeconds();
             const minutes = now.getMinutes();
             const hours = now.getHours();
@@ -430,19 +462,24 @@
             const minuteDegrees = ((minutes + seconds / 60) / 60) * 360;
             const hourDegrees = ((hours % 12 + minutes / 60) / 12) * 360;
 
-            document.getElementById('second-hand').style.transform = `translate(-50%, 0) rotate(${secondDegrees}deg)`;
-            document.getElementById('minute-hand').style.transform = `translate(-50%, 0) rotate(${minuteDegrees}deg)`;
-            document.getElementById('hour-hand').style.transform = `translate(-50%, 0) rotate(${hourDegrees}deg)`;
+            const secEl = document.getElementById('second-hand');
+            const minEl = document.getElementById('minute-hand');
+            const hrEl = document.getElementById('hour-hand');
 
-            // Digitales Datum & Uhrzeit daneben
+            if(secEl) secEl.style.transform = `translate(-50%, 0) rotate(${secondDegrees}deg)`;
+            if(minEl) minEl.style.transform = `translate(-50%, 0) rotate(${minuteDegrees}deg)`;
+            if(hrEl) hrEl.style.transform = `translate(-50%, 0) rotate(${hourDegrees}deg)`;
+
             const optionsDate = { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' };
-            document.getElementById('header-date').innerText = now.toLocaleDateString('de-DE', optionsDate);
-            document.getElementById('header-time').innerText = now.toLocaleTimeString('de-DE');
+            const dateEl = document.getElementById('header-date');
+            const timeEl = document.getElementById('header-time');
+
+            if(dateEl) dateEl.innerText = now.toLocaleDateString('de-DE', optionsDate);
+            if(timeEl) timeEl.innerText = now.toLocaleTimeString('de-DE');
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Standard-Fragenkatalog (über 60 Fragen)
         const defaultQuestions = [
             { q: "Was ist die Hauptaufgabe des Department of Justice?", options: ["Polizeistreifen fahren", "Die Einhaltung von Gesetzen und Vertretung der Justiz", "Fahrzeugtuning verkaufen"], correct: 1 },
             { q: "Wann darf von der Schusswaffe gebrauch gemacht werden?", options: ["Immer bei Flucht", "Nur bei unmittelbarer Eigen- oder Fremdgefährdung", "Gar nicht"], correct: 1 },
@@ -592,6 +629,7 @@
         function submitExam() {
             let score = 0;
             let total = activeExamQuestions.length;
+            const name = document.getElementById('applicant-name').value.trim();
 
             for (let i = 0; i < total; i++) {
                 let val = document.getElementById(`question-${i}`).value;
@@ -610,19 +648,24 @@
             document.getElementById('exam-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.remove('hidden');
 
+            document.getElementById('applicant-display-name').innerText = `Prüfling: ${name}`;
             let resText = document.getElementById('result-text');
             let resCard = document.getElementById('result-card');
 
             if (passed) {
                 resCard.style.borderColor = 'var(--success)';
                 resText.style.color = 'var(--success)';
-                resText.innerHTML = `🎉 BESTANDEN!<br><span style="font-size: 16px; color: var(--text-light);">Du hast ${score} von ${total} Punkten erreicht (${percentage.format ? percentage.format(1) : percentage.toFixed(1)}%). Glückwunsch zur bestandenen Prüfung!</span>`;
+                resText.innerHTML = `🎉 BESTANDEN!<br><span style="font-size: 16px; color: var(--text-light);">Du hast ${score} von ${total} Punkten erreicht (${percentage.toFixed(1)}%). Glückwunsch zur bestandenen Prüfung!</span>`;
             } else {
                 resCard.style.borderColor = 'var(--danger)';
                 resText.style.color = 'var(--danger)';
                 resText.innerHTML = `❌ LEIDER NICHT BESTANDEN<br><span style="font-size: 16px; color: var(--text-light);">Du hast ${score} von ${total} Punkten erreicht (${percentage.toFixed(1)}%). Benötigt werden mindestens 80% (12 Punkte).</span>`;
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function printResultPDF() {
+            window.print();
         }
 
         function renderAdminQuestions() {
@@ -677,9 +720,6 @@
                 renderAdminQuestions();
             }
         }
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
